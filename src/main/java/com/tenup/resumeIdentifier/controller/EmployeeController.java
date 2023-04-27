@@ -4,11 +4,9 @@ import com.tenup.resumeIdentifier.AbstractController;
 import com.tenup.resumeIdentifier.controller.dto.RequestDTO;
 import com.tenup.resumeIdentifier.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,17 +19,19 @@ public class EmployeeController  extends AbstractController {
     @Autowired
     private EmployeeService employeeService;
 
+    private static final String PENDING = "Pending";
+
     @PostMapping("/upload/resume")
-    public String handleFileUpload(@ModelAttribute RequestDTO fileDetails) throws Throwable {
+    public String uploadFile(@ModelAttribute RequestDTO fileDetails) throws Exception {
         Map<String,Object> data = new HashMap<>();
-        data.put("original_file_name","test.jpg");
-        data.put("file_name","adadadasda");
-        data.put("status","Pending");
-        employeeService.saveEmployeeDetail(data);
+        data.put("original_file_name",fileDetails.getFile().getOriginalFilename());
+        data.put("file_name",fileDetails.getFile().getName());
+        data.put("status",PENDING);
+        employeeService.saveEmployeeDetail(data, fileDetails.getFile());
         return "";
     }
 
-    @PostMapping("/getAll")
+    @GetMapping("/getAll")
     public List<Map<String, Object>> getAll() {
         List<Map<String, Object>> employeeList = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class EmployeeController  extends AbstractController {
         Map<String,Object> dataTwo = new HashMap<>();
         dataTwo.put("name", "pqr");
         dataTwo.put("address", "Ahemadabad");
-        dataOne.put("experience", "10 years");
+        dataTwo.put("experience", "10 years");
         dataTwo.put("skills", "java 11, Spring MVC, Spring Boot");
         employeeList.add(dataTwo);
 
