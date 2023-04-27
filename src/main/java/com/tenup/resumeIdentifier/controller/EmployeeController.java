@@ -1,9 +1,7 @@
 package com.tenup.resumeIdentifier.controller;
 
 import com.tenup.resumeIdentifier.AbstractController;
-import com.tenup.resumeIdentifier.controller.dto.EmployeeDTO;
 import com.tenup.resumeIdentifier.controller.dto.RequestDTO;
-import com.tenup.resumeIdentifier.controller.dto.SkillDTO;
 import com.tenup.resumeIdentifier.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,21 +32,23 @@ public class EmployeeController  extends AbstractController {
     }
 
     @PostMapping("/getAll")
-    public List<EmployeeDTO> getAll() {
-        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+    public List<Map<String, Object>> getAll() {
+        List<Map<String, Object>> employeeList = new ArrayList<>();
 
-        EmployeeDTO employeeDto = new EmployeeDTO();
-        employeeDto.setName("abc");
-        employeeDto.setAddress("Gujarat");
-        employeeDto.setExperience(5);
+        Map<String,Object> dataOne = new HashMap<>();
+        dataOne.put("name", "abc");
+        dataOne.put("address", "vadodara");
+        dataOne.put("experience", "5 years");
+        dataOne.put("skills", "java 11, Spring MVC, Spring Boot");
+        employeeList.add(dataOne);
 
-        List<String> skillList = new ArrayList<>();
-        skillList.add("skills");
-        skillList.add("java 11");
-        skillList.add("Spring MVC");
-        employeeDto.setSkills(skillList);
-        employeeDTOList.add(employeeDto);
+        Map<String,Object> dataTwo = new HashMap<>();
+        dataTwo.put("name", "pqr");
+        dataTwo.put("address", "Ahemadabad");
+        dataOne.put("experience", "10 years");
+        dataTwo.put("skills", "java 11, Spring MVC, Spring Boot");
+        employeeList.add(dataTwo);
 
-        return employeeDTOList;
+        return employeeList;
     }
 }
